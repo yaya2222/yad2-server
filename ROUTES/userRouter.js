@@ -30,4 +30,9 @@ router.put("/",validToken,asynchandler(async (req,res)=>{
     res.send(updateUser)
 }))
 
+router.put("/permission",validToken,isAdmin,asynchandler(async (req,res)=>{
+    const updateUser=await userBL.upDateUserForAdmin(req.body)
+    res.send(updateUser)
+}))
+
 module.exports = router;

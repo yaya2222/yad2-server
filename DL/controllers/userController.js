@@ -22,4 +22,5 @@ function updateByid(id, newData) {
 }
 
 
+
 module.exports = { create, readOneByEmail, updateByid,readAll,readOneById }

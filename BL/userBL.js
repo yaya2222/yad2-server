@@ -1,13 +1,12 @@
 const userController = require("../DL/controllers/userController");
 const bcryptjs = require("bcryptjs");
 // const { createToken } = require("../middleware/auth");
-const jwt = require("jsonwebtoken")
-const secret = process.env.SECRET
+const jwt = require("jsonwebtoken");
+const secret = process.env.SECRET;
 
-
-const createToken=(email)=> {
-    return jwt.sign({ email }, secret, { expiresIn: "1h" })
-}
+const createToken = (email) => {
+  return jwt.sign({ email }, secret, { expiresIn: "1h" });
+};
 
 async function register({ name, email, password, tel, isAdmin }) {
   if (!name || !email || !password || !tel) throw new Error(`Missing data`);
@@ -56,11 +55,18 @@ async function readAll(filter) {
 }
 
 async function upDateUserByEmail(user, newData) {
-    if(typeof newData.isAdmin !=="undefined") throw new Error("Not authorized")
+  if (typeof newData.isAdmin !== "undefined") throw new Error("Not permission");
   const upDateUser = await userController.updateByid(user._id, newData);
+  if (!upDateUser) throw new Error("The update failed");
   return upDateUser;
 }
 
+async function upDateUserForAdmin({ email, isAdmin }) {
+    const user=await getDetailsAboutUserByEmail(email)
+  const upDateUser = await userController.updateByid(user._id, {isAdmin});
+  if (!upDateUser) throw new Error("The update failed");
+  return upDateUser
+}
 
 module.exports = {
   register,
@@ -68,4 +74,5 @@ module.exports = {
   getDetailsAboutUserByEmail,
   readAll,
   upDateUserByEmail,
+  upDateUserForAdmin,
 };
