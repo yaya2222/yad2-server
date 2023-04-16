@@ -14,6 +14,5 @@ app.use("/products",productRouter)
 app.use("/uesrs",userRouter)
 
 app.use(errorHandler)
-
 app.listen(PORT,()=>console.log(`server is runnig in PORT:${PORT}`))
 
