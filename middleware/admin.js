@@ -1,15 +1,9 @@
-const  userBl = require("../BL/userBL")
+const asynchandler = require('express-async-handler')
 
 
-async function isAdmin(req,res,next){
-    try {
-        const {email}=req
-        const user=await userBl.getDetailsAboutUserByEmail(email)
-        if(!user) throw "This user is not exsit"
-        if(!user.isAdmin) throw "Not authorized"
+const isAdmin=asynchandler((req,res,next)=>{
+        const {user}=req
+        if(!user.isAdmin) throw new Error("Not authorized")
         next()
-    } catch (error) {
-        res.status(400).send({ error: error.message ?? error })
-    }
-}
+})
 module.exports={isAdmin}

@@ -1,8 +1,9 @@
-const userDL=require("../DL/controllers/userController")
-const productDL=require("../DL/controllers/productController")
+const userBL=require("../BL/userBL")
+const productBL=require("../BL/productBL")
 
 
-async function addProduct({idUser,product}){
+async function addProduct({email,product}){
+    const user = await userBL.getDetailsAboutUserByEmail(email)
     
 
 }

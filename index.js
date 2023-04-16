@@ -11,7 +11,8 @@ const  {errorHandler} = require('./middleware/error');
 app.use(express.json())
 
 app.use("/products",productRouter)
-app.use("/uesrs",userRouter)
+app.use("/users",userRouter)
+
 
 app.use(errorHandler)
 app.listen(PORT,()=>console.log(`server is runnig in PORT:${PORT}`))

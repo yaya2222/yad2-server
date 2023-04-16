@@ -9,6 +9,10 @@ function readOneByEmail(email) {
     return UserModel.findOne({ email })
 }
 
+function readOneById(id){
+    return UserModel.findById(id)
+}
+
 function create(newUser) {
     return UserModel.create(newUser);
 }
@@ -18,6 +22,4 @@ function updateByid(id, newData) {
 }
 
 
-
-
-module.exports = { create, readOneByEmail, updateByid,readAll }
+module.exports = { create, readOneByEmail, updateByid,readAll,readOneById }

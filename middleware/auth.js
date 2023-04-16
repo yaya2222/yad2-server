@@ -1,26 +1,20 @@
+const  userBL = require("../BL/userBL")
 const jwt = require("jsonwebtoken")
-const secret = process.env.SECRET
 const asynchandler = require('express-async-handler')
+const secret = process.env.SECRET
 
-const createToken=(email)=> {
-    return jwt.sign({ email }, secret, { expiresIn: 100 })
-}
+// const createToken=(email)=> {
+//     return jwt.sign({ email }, secret, { expiresIn: "1h" })
+// }
 
-const validToken=asynchandler((req, res, next)=> {
-    // try {
+const validToken=asynchandler(async (req, res, next)=> {
         let token = req.headers.authorization
-        if(!token) throw "Missing data"
+        if(!token) throw new Error("Missing data")
         token=token.split(" ")[1]
         const {email} = jwt.verify(token, secret)
-        if(!email) throw "Invalid token"
-        req.email=email
+        const user= await userBL.getDetailsAboutUserByEmail(email)
+        req.user=user
         next()
-    // } catch (error) {
-    //     res.status(400).send({ error: error.message ?? error })
-    // }
-
 })
 
-module.exports = { createToken,validToken }
-
-
+module.exports = { validToken }
