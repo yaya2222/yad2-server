@@ -17,7 +17,7 @@ const ProductSchema = new mongoose.Schema(
       enum: ["עטוף באריזה", "כמו חדש", "משומש", "לא רלונטי"],
     },
     isActive: { type: Boolean, default: true },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+    idUser: { type: mongoose.Schema.Types.ObjectId, ref: "users" ,required:true},
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },

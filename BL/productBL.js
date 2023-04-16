@@ -14,7 +14,8 @@ async function readOneById(id) {
     return product
 }
 
-async function create(product) {
+async function create(idUser,product){
+    product.idUser=idUser
     const newProduct = await productController.create(product)
     if (!newProduct) throw new Error('Creation failed')
     return newProduct
