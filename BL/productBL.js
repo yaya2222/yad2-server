@@ -1,5 +1,3 @@
-// require("dotenv").config();
-// require("../db")();
 const productController = require("../DL/controllers/productController")
 
 
@@ -14,12 +12,12 @@ async function readOneById(id) {
     return product
 }
 
-async function create(idUser,product){
-    product.idUser=idUser
-    const newProduct = await productController.create(product)
-    if (!newProduct) throw new Error('Creation failed')
-    return newProduct
-}
+// async function create(idUser,product){
+//     product.idUser=idUser
+//     const newProduct = await productController.create(product)
+//     if (!newProduct) throw new Error('Creation failed')
+//     return newProduct
+// }
 
 async function update(id, newData) {
     if (!(await productController.readOneById(id))) throw new Error(`This id: ${id} is not exsit`)
@@ -36,4 +34,4 @@ async function del(id){
     return deleteProduct
 }
 
-module.exports = { readAll, readOneById, create, update,del }
+module.exports = { readAll, readOneById, update,del }

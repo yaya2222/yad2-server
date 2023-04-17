@@ -1,6 +1,5 @@
 const userController = require("../DL/controllers/userController");
 const bcryptjs = require("bcryptjs");
-// const { createToken } = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
 const secret = process.env.SECRET;
 
@@ -40,8 +39,14 @@ async function login({ email, password }) {
   return token;
 }
 
-async function getDetailsAboutUserByEmail(email) {
-  const user = await userController.readOneByEmail(email);
+async function getDetailsAboutUserByEmail(email,isProduct) {
+  if(!email) throw new Error("Missing data")
+  let user
+  if(isProduct){
+     user = await userController.readOneByEmail(email).populate("idProducts");
+  }else{
+     user = await userController.readOneByEmail(email);
+  }
   if (!user) throw new Error("This email is not exsit");
   return user;
 }
@@ -55,7 +60,7 @@ async function readAll(filter) {
 }
 
 async function upDateUserByEmail(user, newData) {
-  if (typeof newData.isAdmin !== "undefined") throw new Error("Not permission");
+  if ( newData.isAdmin === undefined) throw new Error("Not permission");
   const upDateUser = await userController.updateByid(user._id, newData);
   if (!upDateUser) throw new Error("The update failed");
   return upDateUser;
@@ -67,6 +72,7 @@ async function upDateUserForAdmin({ email, isAdmin }) {
   if (!upDateUser) throw new Error("The update failed");
   return upDateUser
 }
+
 
 module.exports = {
   register,

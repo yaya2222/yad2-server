@@ -24,4 +24,8 @@ function del(id){
 return ProductModel.findByIdAndUpdate(id,{isActive:false},{ new: true })
 }
 
-module.exports = { readAll, create, readOneById, update,del }
+function delMany(idUser){
+return ProductModel.updateMany({idUser},{isActive:false},{new:true})
+}
+
+module.exports = { readAll, create, readOneById, update,del,delMany }
