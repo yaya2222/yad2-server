@@ -7,7 +7,7 @@ const createToken = (email) => {
   return jwt.sign({ email }, secret, { expiresIn: "1h" });
 };
 
-async function register({ name, email, password, tel, isAdmin }) {
+async function register({ name, email, password, tel}) {
   if (!name || !email || !password || !tel) throw new Error(`Missing data`);
   const salt = bcryptjs.genSaltSync(10);
   password = bcryptjs.hashSync(password + process.env.PASSWORD, salt);
@@ -16,7 +16,6 @@ async function register({ name, email, password, tel, isAdmin }) {
     email,
     password,
     tel,
-    isAdmin,
   });
   if (!newUser) throw new Error("Creation failed");
   const token = createToken(newUser.email);
